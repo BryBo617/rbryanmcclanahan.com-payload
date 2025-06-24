@@ -102,7 +102,7 @@ export const plugins: Plugin[] = [
         accessKeyId: process.env.R2_ACCESS_KEY_ID || '',
         secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || ''
       },
-      region: 'ENAM',
+      region: 'auto',
       endpoint: process.env.R2_PUBLIC_URL
     }
   })
