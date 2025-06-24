@@ -1,7 +1,6 @@
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { searchFields } from '@/search/fieldOverrides'
-import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
@@ -91,7 +90,6 @@ export const plugins: Plugin[] = [
       },
     },
   }),
-  payloadCloudPlugin(),
   s3Storage({
     collections: {
       media: true,
