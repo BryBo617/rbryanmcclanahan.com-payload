@@ -7,14 +7,16 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical';
 
-import { linkGroup } from '../../fields/linkGroup';
-
-export const CallToAction: Block = {
-  slug: 'cta',
-  interfaceName: 'CallToActionBlock',
+export const ContentWithMedia: Block = {
+  slug: 'contentWithMedia',
+  interfaceName: 'ContentWithMedia',
+  labels: {
+    singular: 'Content with Media Block',
+    plural: 'Content with Media Blocks',
+  },
   fields: [
     {
-      name: 'richText',
+      name: 'content',
       type: 'richText',
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
@@ -26,17 +28,17 @@ export const CallToAction: Block = {
           ];
         },
       }),
-      label: false,
     },
-    linkGroup({
-      appearances: ['default', 'outline'],
-      overrides: {
-        maxRows: 2,
-      },
-    }),
+    {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
+      required: true,
+    },
+    {
+      name: 'contentPosition',
+      type: 'radio',
+      options: ['Left', 'Right'],
+    },
   ],
-  labels: {
-    plural: 'Calls to Action',
-    singular: 'Call to Action',
-  },
 };

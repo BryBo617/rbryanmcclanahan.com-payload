@@ -1,34 +1,23 @@
-import { getCachedGlobal } from '@/utilities/getGlobals'
-import Link from 'next/link'
-import React from 'react'
-
-import type { Footer } from '@/payload-types'
-
-import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
-import { CMSLink } from '@/components/Link'
-import { Logo } from '@/components/Logo/Logo'
+import RichText from '@/components/RichText';
+import type { Footer } from '@/payload-types';
+import { getCachedGlobal } from '@/utilities/getGlobals';
 
 export async function Footer() {
-  const footerData: Footer = await getCachedGlobal('footer', 1)()
+  const footerData: Footer = await getCachedGlobal('footer', 1)();
 
-  const navItems = footerData?.navItems || []
-
+  const content = footerData.richText;
   return (
-    <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
-      <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
-        <Link className="flex items-center" href="/">
-          <Logo />
-        </Link>
-
-        <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
-          <ThemeSelector />
-          <nav className="flex flex-col md:flex-row gap-4">
-            {navItems.map(({ link }, i) => {
-              return <CMSLink className="text-white" key={i} {...link} />
-            })}
-          </nav>
+    <footer className="mt-auto light:bg-card">
+      <div className="rounded-t-2xl container py-8 gap-8 flex bg-[#bbb9a8] flex-col md:flex-row md:justify-center">
+        <div>
+          {content && (
+            <RichText
+              className="text-black text-sm"
+              data={content || '©2025 R. Bryan McClanahan. All rights reserved.'}
+            />
+          )}
         </div>
       </div>
     </footer>
-  )
+  );
 }

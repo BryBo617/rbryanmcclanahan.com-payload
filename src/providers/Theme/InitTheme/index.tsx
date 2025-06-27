@@ -1,7 +1,7 @@
-import Script from 'next/script'
-import React from 'react'
+import Script from 'next/script';
+import React from 'react';
 
-import { defaultTheme, themeLocalStorageKey } from '../ThemeSelector/types'
+import { defaultTheme, themeLocalStorageKey } from '../ThemeSelector/types';
 
 export const InitTheme: React.FC = () => {
   return (
@@ -10,18 +10,6 @@ export const InitTheme: React.FC = () => {
       dangerouslySetInnerHTML={{
         __html: `
   (function () {
-    function getImplicitPreference() {
-      var mediaQuery = '(prefers-color-scheme: dark)'
-      var mql = window.matchMedia(mediaQuery)
-      var hasImplicitPreference = typeof mql.matches === 'boolean'
-
-      if (hasImplicitPreference) {
-        return mql.matches ? 'dark' : 'light'
-      }
-
-      return null
-    }
-
     function themeIsValid(theme) {
       return theme === 'light' || theme === 'dark'
     }
@@ -32,11 +20,8 @@ export const InitTheme: React.FC = () => {
     if (themeIsValid(preference)) {
       themeToSet = preference
     } else {
-      var implicitPreference = getImplicitPreference()
-
-      if (implicitPreference) {
-        themeToSet = implicitPreference
-      }
+      // Always default to light theme instead of system preference
+      themeToSet = 'light'
     }
 
     document.documentElement.setAttribute('data-theme', themeToSet)
@@ -46,5 +31,5 @@ export const InitTheme: React.FC = () => {
       id="theme-script"
       strategy="beforeInteractive"
     />
-  )
-}
+  );
+};
