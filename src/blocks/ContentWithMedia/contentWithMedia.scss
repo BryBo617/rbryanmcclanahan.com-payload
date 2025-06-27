@@ -1,0 +1,28 @@
+.diploma {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: auto;
+
+  // Also target the picture element wrapper
+  picture {
+    display: block;
+
+    img {
+      width: 100% !important;
+      height: auto !important;
+      display: block;
+      object-fit: contain;
+      max-width: 400px !important;
+      max-height: 400px !important;
+
+      @media (max-width: 767px) {
+        width: 100% !important;
+        max-width: 400px !important;
+        max-height: 400px !important;
+      }
+    }
+  }
+}
