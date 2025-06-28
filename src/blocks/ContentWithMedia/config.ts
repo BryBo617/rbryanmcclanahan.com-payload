@@ -30,12 +30,27 @@ export const ContentWithMedia: Block = {
       }),
     },
     {
+      label: 'Content Image',
       name: 'image',
-      type: 'upload',
       relationTo: 'media',
       required: true,
+      type: 'upload',
     },
     {
+      name: 'contentBelowImage',
+      label: 'Content Below Image',
+      type: 'richText',
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => [
+          ...rootFeatures,
+          HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+          FixedToolbarFeature(),
+          InlineToolbarFeature(),
+        ],
+      }),
+    },
+    {
+      label: 'Image Position',
       name: 'contentPosition',
       type: 'radio',
       options: ['Left', 'Right'],

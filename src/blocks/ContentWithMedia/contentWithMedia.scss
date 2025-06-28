@@ -25,4 +25,14 @@
       }
     }
   }
+
+  .disclaimer {
+    display: flex;
+    justify-content: center;
+    p {
+      position: absolute;
+      bottom: -0.5em;
+      right: 0.5em;
+    }
+  }
 }

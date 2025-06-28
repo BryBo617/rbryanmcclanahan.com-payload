@@ -454,6 +454,21 @@ export interface ContentWithMedia {
     [k: string]: unknown;
   } | null;
   image: number | Media;
+  contentBelowImage?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   contentPosition?: ('Left' | 'Right') | null;
   id?: string | null;
   blockName?: string | null;
@@ -1091,6 +1106,7 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
 export interface ContentWithMediaSelect<T extends boolean = true> {
   content?: T;
   image?: T;
+  contentBelowImage?: T;
   contentPosition?: T;
   id?: T;
   blockName?: T;
