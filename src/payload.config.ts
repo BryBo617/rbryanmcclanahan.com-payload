@@ -1,7 +1,5 @@
 // storage-adapter-import-placeholder
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres';
-import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
-import nodemailerSendgrid from 'nodemailer-sendgrid';
 
 import path from 'path';
 import { buildConfig, PayloadRequest } from 'payload';
@@ -61,14 +59,6 @@ export default buildConfig({
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
-  email: nodemailerAdapter({
-    defaultFromAddress: 'noreply@rbryanmcclanahan.com',
-    defaultFromName: 'No Reply',
-    // Nodemailer transportOptions
-    transportOptions: nodemailerSendgrid({
-      apiKey: process.env.SENDGRID_API_KEY || '',
-    }),
-  }),
   db: vercelPostgresAdapter({
     pool: {
       connectionString: process.env.POSTGRES_URL || '',
