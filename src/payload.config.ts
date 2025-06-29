@@ -15,7 +15,6 @@ import { Users } from './collections/Users';
 import { Footer } from './Footer/config';
 import { Header } from './Header/config';
 import { plugins } from './plugins';
-import { emailConfig } from './utilities/email';
 import { getServerSideURL } from './utilities/getURL';
 
 const filename = fileURLToPath(import.meta.url);
@@ -67,7 +66,6 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  email: emailConfig,
   globals: [Header, Footer],
   plugins: [
     ...plugins,
