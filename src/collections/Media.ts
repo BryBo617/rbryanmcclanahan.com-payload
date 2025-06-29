@@ -1,13 +1,13 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig } from 'payload';
 
 import {
   FixedToolbarFeature,
   InlineToolbarFeature,
   lexicalEditor,
-} from '@payloadcms/richtext-lexical'
+} from '@payloadcms/richtext-lexical';
 
-import { anyone } from '../access/anyone'
-import { authenticated } from '../access/authenticated'
+import { anyone } from '../access/anyone';
+import { authenticated } from '../access/authenticated';
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -28,7 +28,7 @@ export const Media: CollectionConfig = {
       type: 'richText',
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
-          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
+          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()];
         },
       }),
     },
@@ -70,4 +70,4 @@ export const Media: CollectionConfig = {
       },
     ],
   },
-}
+};
