@@ -1,14 +1,15 @@
-import type { GlobalConfig } from 'payload'
+import type { GlobalConfig } from 'payload';
 
 import {
   FixedToolbarFeature,
   HeadingFeature,
   InlineToolbarFeature,
   lexicalEditor,
-} from '@payloadcms/richtext-lexical'
+  LinkFeature,
+} from '@payloadcms/richtext-lexical';
 
-import { link } from '@/fields/link'
-import { revalidateHeader } from './hooks/revalidateHeader'
+import { link } from '@/fields/link';
+import { revalidateHeader } from './hooks/revalidateHeader';
 
 export const Header: GlobalConfig = {
   slug: 'header',
@@ -20,14 +21,28 @@ export const Header: GlobalConfig = {
       name: 'richText',
       type: 'richText',
       editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ]
-        },
+        features: ({ defaultFeatures }) => [
+          ...defaultFeatures,
+          LinkFeature({
+            fields: ({ defaultFields }) => [
+              ...defaultFields,
+              {
+                name: 'rel',
+                label: 'Rel Attributes',
+                type: 'select',
+                hasMany: true,
+                options: ['noopener', 'noreferrer', 'nofollow'],
+                admin: {
+                  description:
+                    'The rel attribute defines the relationship between a linked resource and the current document. This is a custom link field.',
+                },
+              },
+            ],
+          }),
+          HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+          FixedToolbarFeature(),
+          InlineToolbarFeature(),
+        ],
       }),
       label: 'Banner Content',
     },
@@ -85,4 +100,4 @@ export const Header: GlobalConfig = {
   hooks: {
     afterChange: [revalidateHeader],
   },
-}
+};
