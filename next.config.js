@@ -18,10 +18,10 @@ const nextConfig = {
           protocol: url.protocol.replace(':', ''),
         };
       }),
-      // Add R2 Cloudflare domain for images
+      // Add R2 Public Development URL for images
       {
         protocol: 'https',
-        hostname: '60c6cdbc9b1162a5dc26e53cbdb7d54e.r2.cloudflarestorage.com',
+        hostname: process.env.R2_PUBLIC_URL?.replace(/^https?:\/\//, ''),
       },
     ],
   },
