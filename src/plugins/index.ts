@@ -92,7 +92,13 @@ export const plugins: Plugin[] = [
   }),
   s3Storage({
     collections: {
-      media: true,
+      media: {
+        disablePayloadAccessControl: true,
+        generateFileURL: ({ filename, prefix = '' }) => {
+          // Use the R2 Public URL for serving files directly
+          return `${process.env.R2_PUBLIC_URL}/${prefix ? `${prefix}/` : ''}${filename}`;
+        },
+      },
     },
     bucket: process.env.R2_BUCKET_NAME || '',
     config: {
@@ -101,7 +107,7 @@ export const plugins: Plugin[] = [
         secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || '',
       },
       region: 'auto',
-      endpoint: process.env.R2_PUBLIC_URL,
+      endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
     },
   }),
 ];
