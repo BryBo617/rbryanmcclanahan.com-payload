@@ -19,10 +19,14 @@ const nextConfig = {
         };
       }),
       // Add R2 Public Development URL for images
-      {
-        protocol: 'https',
-        hostname: process.env.R2_PUBLIC_URL?.replace(/^https?:\/\//, ''),
-      },
+      ...(process.env.R2_PUBLIC_URL
+        ? [
+            {
+              protocol: 'https',
+              hostname: process.env.R2_PUBLIC_URL.replace(/^https?:\/\//, ''),
+            },
+          ]
+        : []),
     ],
   },
   reactStrictMode: true,
