@@ -1,10 +1,10 @@
-import type { RequiredDataFromCollectionSlug } from 'payload'
-import type { Media } from '@/payload-types'
+import type { Media } from '@/payload-types';
+import type { RequiredDataFromCollectionSlug } from 'payload';
 
 type HomeArgs = {
-  heroImage: Media
-  metaImage: Media
-}
+  heroImage: Media;
+  metaImage: Media;
+};
 
 export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   heroImage,
@@ -22,6 +22,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
             appearance: 'default',
             label: 'All posts',
             url: '/posts',
+            pageSlug: 'posts',
           },
         },
         {
@@ -30,6 +31,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
             appearance: 'outline',
             label: 'Contact',
             url: '/contact',
+            pageSlug: 'contact',
           },
         },
       ],
@@ -579,6 +581,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
               appearance: 'default',
               label: 'All posts',
               url: '/posts',
+              pageSlug: 'posts',
             },
           },
         ],
@@ -671,5 +674,5 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
       title: 'Payload Website Template',
     },
     title: 'Home',
-  }
-}
+  };
+};
