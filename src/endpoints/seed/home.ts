@@ -22,7 +22,6 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
             appearance: 'default',
             label: 'All posts',
             url: '/posts',
-            pageSlug: 'posts',
           },
         },
         {
@@ -31,7 +30,6 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
             appearance: 'outline',
             label: 'Contact',
             url: '/contact',
-            pageSlug: 'contact',
           },
         },
       ],
@@ -581,7 +579,6 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
               appearance: 'default',
               label: 'All posts',
               url: '/posts',
-              pageSlug: 'posts',
             },
           },
         ],

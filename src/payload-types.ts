@@ -180,7 +180,6 @@ export interface Page {
                   value: number | Post;
                 } | null);
             url?: string | null;
-            pageSlug: string;
             label: string;
             /**
              * Choose how the link should be rendered.
@@ -421,7 +420,6 @@ export interface CallToActionBlock {
                 value: number | Post;
               } | null);
           url?: string | null;
-          pageSlug: string;
           label: string;
           /**
            * Choose how the link should be rendered.
@@ -513,7 +511,6 @@ export interface ContentBlock {
                 value: number | Post;
               } | null);
           url?: string | null;
-          pageSlug: string;
           label: string;
           /**
            * Choose how the link should be rendered.
@@ -1047,7 +1044,6 @@ export interface PagesSelect<T extends boolean = true> {
                     newTab?: T;
                     reference?: T;
                     url?: T;
-                    pageSlug?: T;
                     label?: T;
                     appearance?: T;
                   };
@@ -1095,7 +1091,6 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
               newTab?: T;
               reference?: T;
               url?: T;
-              pageSlug?: T;
               label?: T;
               appearance?: T;
             };
@@ -1134,7 +1129,6 @@ export interface ContentBlockSelect<T extends boolean = true> {
               newTab?: T;
               reference?: T;
               url?: T;
-              pageSlug?: T;
               label?: T;
               appearance?: T;
             };
@@ -1628,7 +1622,6 @@ export interface Header {
                 value: number | Post;
               } | null);
           url?: string | null;
-          pageSlug: string;
           label: string;
         };
         id?: string | null;
@@ -1675,7 +1668,6 @@ export interface Footer {
                 value: number | Post;
               } | null);
           url?: string | null;
-          pageSlug: string;
           label: string;
         };
         id?: string | null;
@@ -1700,7 +1692,6 @@ export interface HeaderSelect<T extends boolean = true> {
               newTab?: T;
               reference?: T;
               url?: T;
-              pageSlug?: T;
               label?: T;
             };
         id?: T;
@@ -1727,7 +1718,6 @@ export interface FooterSelect<T extends boolean = true> {
               newTab?: T;
               reference?: T;
               url?: T;
-              pageSlug?: T;
               label?: T;
             };
         id?: T;

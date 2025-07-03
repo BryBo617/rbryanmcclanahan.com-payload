@@ -87,13 +87,6 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       label: 'Custom URL',
       required: true,
     },
-    {
-      name: 'pageSlug',
-      type: 'text',
-      label: 'Page Slug',
-      defaultValue: '',
-      required: true,
-    },
   ];
 
   if (!disableLabel) {

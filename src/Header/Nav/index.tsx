@@ -17,7 +17,21 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
     <nav className="header-nav flex gap-3 justify-end">
       {navItems
         .filter((ni) => {
-          return `/${ni.link.pageSlug === "''" ? '' : ni.link.pageSlug}` !== pathname;
+          // Build the href for comparison
+          const { link } = ni;
+          let href = '';
+
+          if (
+            link.type === 'reference' &&
+            typeof link.reference?.value === 'object' &&
+            link.reference.value.slug
+          ) {
+            href = `${link.reference?.relationTo !== 'pages' ? `/${link.reference?.relationTo}` : ''}/${link.reference.value.slug}`;
+          } else if (link.type === 'custom' && link.url) {
+            href = link.url;
+          }
+
+          return href !== pathname;
         })
         .map(({ link }, i) => {
           return <CMSLink key={i} {...link} appearance="default" />;
