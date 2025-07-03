@@ -1,29 +1,38 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import React from 'react';
 
 import type { Header as HeaderType } from '@/payload-types';
 
 import { CMSLink } from '@/components/Link';
 
+import { usePathname } from 'next/navigation';
 import './nav.scss';
 
 export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   const navItems = data?.navItems || [];
   const pathname = usePathname();
 
-  // Hide nav items if the route is contact-me
-  if (pathname === '/contact-me') {
-    return null;
-  }
-
   return (
     <nav className="header-nav flex gap-3 justify-end">
-      {/* I only want the contact nave item */}
-      {/* hide the nav items if the route is contact-me */}
       {navItems
-        .filter((ni) => ni.link.label === 'Contact Me')
+        .filter((ni) => {
+          // Build the href for comparison
+          const { link } = ni;
+          let href = '';
+
+          if (
+            link.type === 'reference' &&
+            typeof link.reference?.value === 'object' &&
+            link.reference.value.slug
+          ) {
+            href = `${link.reference?.relationTo !== 'pages' ? `/${link.reference?.relationTo}` : ''}/${link.reference.value.slug}`;
+          } else if (link.type === 'custom' && link.url) {
+            href = link.url;
+          }
+
+          return href !== pathname;
+        })
         .map(({ link }, i) => {
           return <CMSLink key={i} {...link} appearance="default" />;
         })}

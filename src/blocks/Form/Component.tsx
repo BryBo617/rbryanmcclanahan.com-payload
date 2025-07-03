@@ -102,6 +102,7 @@ export const FormBlock: React.FC<
             if (redirectUrl) router.push(redirectUrl);
           }
         } catch (err) {
+          // eslint-disable-next-line
           console.warn(err);
           setIsLoading(false);
           setError({

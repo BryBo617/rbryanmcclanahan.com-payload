@@ -1,11 +1,11 @@
-import { BeforeSync, DocToSync } from '@payloadcms/plugin-search/types'
+import { BeforeSync, DocToSync } from '@payloadcms/plugin-search/types';
 
 export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searchDoc }) => {
   const {
     doc: { relationTo: collection },
-  } = searchDoc
+  } = searchDoc;
 
-  const { slug, id, categories, title, meta } = originalDoc
+  const { slug, id, categories, title, meta } = originalDoc;
 
   const modifiedDoc: DocToSync = {
     ...searchDoc,
@@ -17,18 +17,18 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
       description: meta?.description,
     },
     categories: [],
-  }
+  };
 
   if (categories && Array.isArray(categories) && categories.length > 0) {
-    const populatedCategories: { id: string | number; title: string }[] = []
+    const populatedCategories: { id: string | number; title: string }[] = [];
     for (const category of categories) {
       if (!category) {
-        continue
+        continue;
       }
 
       if (typeof category === 'object') {
-        populatedCategories.push(category)
-        continue
+        populatedCategories.push(category);
+        continue;
       }
 
       const doc = await req.payload.findByID({
@@ -38,14 +38,15 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
         depth: 0,
         select: { title: true },
         req,
-      })
+      });
 
       if (doc !== null) {
-        populatedCategories.push(doc)
+        populatedCategories.push(doc);
       } else {
+        // eslint-disable-next-line
         console.error(
           `Failed. Category not found when syncing collection '${collection}' with id: '${id}' to search.`,
-        )
+        );
       }
     }
 
@@ -53,8 +54,8 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
       relationTo: 'categories',
       categoryID: String(each.id),
       title: each.title,
-    }))
+    }));
   }
 
-  return modifiedDoc
-}
+  return modifiedDoc;
+};

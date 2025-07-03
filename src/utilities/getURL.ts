@@ -13,7 +13,11 @@ export const getServerSideURL = () => {
 };
 
 export const getClientSideURL = () => {
-  // Always return the server-side URL to ensure consistency between SSR and client
-  // This prevents hydration mismatches when the URL is different on server vs client
+  // Use current window location for API calls to avoid CORS issues
+  if (typeof window !== 'undefined') {
+    return `${window.location.protocol}//${window.location.host}`;
+  }
+
+  // Fallback to server-side URL for SSR
   return getServerSideURL();
 };
