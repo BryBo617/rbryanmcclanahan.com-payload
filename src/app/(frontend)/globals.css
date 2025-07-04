@@ -47,6 +47,10 @@
     --success: 196 52% 74%;
     --warning: 34 89% 85%;
     --error: 10 100% 86%;
+
+    /* Banner Brand Colors */
+    --banner-primary: 26 54% 83%; /* rgb(237, 202, 185) */
+    --banner-secondary: 54 14% 70%; /* rgb(187, 185, 168) */
   }
 
   [data-theme='dark'] {
@@ -92,6 +96,10 @@
     @apply text-foreground min-h-[100vh] flex flex-col;
     background-color: hsl(var(--background));
   }
+}
+
+@layer utilities {
+  /* Custom utilities can be added here */
 }
 
 html {

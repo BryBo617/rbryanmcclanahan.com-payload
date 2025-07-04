@@ -1,25 +1,78 @@
 import React from 'react';
 
-import { Media } from '@/components/Media';
 import RichText from '@/components/RichText';
 import type { Header } from '@/payload-types';
+import { cn } from '@/utilities/ui';
 
 import { HeaderNav } from '../Nav';
-import './banner.scss';
 
 export const Banner: React.FC<{ data: Header }> = ({ data }) => {
-  // const navItems = data?.navItems || [];
   const content = data?.richText;
   const media = data?.media;
 
   return (
-    <div className="banner">
-      <div className="banner-box flex">
-        {content && <RichText className="content-wrapper" data={content} />}
+    <div className="flex relative justify-stretch items-stretch w-full h-full">
+      <div
+        className={cn(
+          'absolute z-[2] flex flex-col rounded-lg',
+          'w-[88%] sm:w-[60%] md:w-[55%] md:max-w-[90%] lg:w-[55%] lg:max-w-[80%]',
+          'top-[60px]',
+          // Default mobile positioning
+          'left-1/2 -translate-x-1/2',
+          // Override for landscape mobile only (not desktop landscape)
+          'max-sm:landscape:left-auto max-sm:landscape:translate-x-0 max-sm:landscape:ml-2 max-sm:landscape:mr-2',
+          // Small screens positioning
+          'sm:left-auto sm:translate-x-0 sm:ml-6 sm:mr-4',
+          // Medium screens positioning
+          'md:ml-6',
+          // Desktop positioning (lg and up)
+          'lg:left-[30px] lg:translate-x-0 lg:ml-0',
+          'p-3 landscape:p-2 sm:p-4 md:p-5 lg:p-6',
+        )}
+        style={{
+          backgroundColor: 'hsl(var(--banner-primary) / 0.5)',
+          border: '1px solid hsl(var(--banner-secondary) / 0.5)',
+          boxShadow: '0 4px 8px hsl(var(--banner-secondary))',
+          maxWidth: '600px',
+        }}
+      >
+        {content && (
+          <RichText
+            className={cn(
+              '[&_h1]:text-[1.8em] sm:[&_h1]:text-[2.2em] md:[&_h1]:text-[2.8em] lg:[&_h1]:text-[3.5em]',
+              '[&_h1]:p-0 [&_h1]:m-0 [&_h1]:leading-tight',
+              '[&_h3]:text-sm sm:[&_h3]:text-base md:[&_h3]:text-[1.1em]',
+              '[&_h3]:mt-1 sm:[&_h3]:mt-0 md:[&_h3]:mt-[0.2em]',
+              '[&_p]:text-sm sm:[&_p]:text-base [&_p]:py-[0.3em] sm:[&_p]:py-[0.5em]',
+              '[&_p]:leading-relaxed',
+            )}
+            data={content}
+          />
+        )}
         <HeaderNav data={data} />
       </div>
+
+      {/* Background Image */}
       {media && typeof media === 'object' && (
-        <Media className="image" fill priority resource={media} />
+        <div
+          className={cn('relative w-full h-full z-[1]', 'overflow-hidden rounded-b-lg')}
+          style={{
+            backgroundColor: 'hsl(var(--banner-primary) / 0.35)',
+            border: '0.1em solid hsl(var(--banner-secondary))',
+            backgroundImage: `url(${typeof media === 'object' && media?.url ? media.url : ''})`,
+            backgroundSize: 'cover',
+            backgroundPosition: '75% 25%',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          <div
+            className="absolute inset-0 rounded-b-lg"
+            style={{
+              background:
+                'linear-gradient(135deg, hsl(var(--banner-primary) / 0.15) 0%, hsl(var(--banner-primary) / 0.05) 50%, transparent 100%)',
+            }}
+          />
+        </div>
       )}
     </div>
   );

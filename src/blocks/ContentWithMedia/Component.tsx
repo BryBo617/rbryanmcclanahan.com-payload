@@ -5,8 +5,6 @@ import { Media } from '@/components/Media';
 import RichText from '@/components/RichText';
 import type { ContentWithMedia } from '@/payload-types';
 
-import './contentWithMedia.scss';
-
 export const ContentWithMediaBlock: React.FC<ContentWithMedia> = ({
   contentPosition,
   content,
@@ -23,14 +21,19 @@ export const ContentWithMediaBlock: React.FC<ContentWithMedia> = ({
         </div>
         {image && (
           <div className="w-full md:w-1/4">
-            <Media resource={image} className="diploma w-full h-auto object-contain" />
-            {contentBelowImage && (
-              <RichText
-                className="disclaimer text-center"
-                data={contentBelowImage}
-                enableGutter={false}
+            <div className="flex flex-col items-center w-full h-auto">
+              <Media
+                resource={image}
+                className="block w-full h-auto object-contain max-w-[400px] max-h-[400px]"
               />
-            )}
+              {contentBelowImage && (
+                <RichText
+                  className="text-center mt-2 text-sm"
+                  data={contentBelowImage}
+                  enableGutter={false}
+                />
+              )}
+            </div>
           </div>
         )}
       </div>

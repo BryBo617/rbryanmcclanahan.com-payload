@@ -1,5 +1,5 @@
-import tailwindcssAnimate from 'tailwindcss-animate'
-import typography from '@tailwindcss/typography'
+import typography from '@tailwindcss/typography';
+import tailwindcssAnimate from 'tailwindcss-animate';
 
 /** @type {import('tailwindcss').Config} */
 const config = {
@@ -92,6 +92,14 @@ const config = {
         success: 'hsl(var(--success))',
         error: 'hsl(var(--error))',
         warning: 'hsl(var(--warning))',
+        banner: {
+          primary: 'hsl(var(--banner-primary))',
+          secondary: 'hsl(var(--banner-secondary))',
+          'primary-overlay': 'hsl(var(--banner-primary) / 0.5)',
+          'secondary-overlay': 'hsl(var(--banner-secondary) / 0.5)',
+          'primary-bg': 'hsl(var(--banner-primary) / 0.35)',
+          'primary-bg-alt': 'hsl(var(--banner-primary) / 0.25)',
+        },
       },
       fontFamily: {
         mono: ['var(--font-geist-mono)'],
@@ -148,6 +156,6 @@ const config = {
       }),
     },
   },
-}
+};
 
-export default config
+export default config;
