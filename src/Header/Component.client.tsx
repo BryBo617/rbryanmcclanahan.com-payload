@@ -27,8 +27,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme]);
 
   return (
-    <header className="container" {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="flex h-[450px] landscape:h-[430px] sm:h-[400px] md:h-[500px] lg:h-[580px] lg:w-[1280px]">
+    <header
+      className="container h-[450px] max-sm:landscape:h-[430px] sm:h-[400px] md:h-[500px] lg:h-[580px]"
+      {...(theme ? { 'data-theme': theme } : {})}
+    >
+      <div className="flex h-[450px] max-sm:landscape:h-[430px] sm:h-[400px] md:h-[500px] lg:h-[580px] lg:w-[1280px]">
         <Banner data={data} />
       </div>
     </header>
