@@ -1,20 +1,45 @@
 import {
+  AlignFeature,
+  BlockquoteFeature,
   BoldFeature,
+  ChecklistFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  IndentFeature,
+  InlineCodeFeature,
+  InlineToolbarFeature,
   ItalicFeature,
   lexicalEditor,
   LinkFeature,
+  OrderedListFeature,
+  UnorderedListFeature,
   ParagraphFeature,
+  RelationshipFeature,
+  StrikethroughFeature,
+  SubscriptFeature,
+  SuperscriptFeature,
   UnderlineFeature,
+  UploadFeature,
   type LinkFields,
 } from '@payloadcms/richtext-lexical';
 import type { TextFieldSingleValidation } from 'payload';
 
 export const defaultLexical = lexicalEditor({
-  features: [
-    ParagraphFeature(),
-    UnderlineFeature(),
+  features: ({ defaultFeatures }) => [
+    ...defaultFeatures,
+    // Basic text formatting
     BoldFeature(),
     ItalicFeature(),
+    UnderlineFeature(),
+    StrikethroughFeature(),
+
+    // Headings
+    HeadingFeature({
+      enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+    }),
+
+    // Links with custom configuration
     LinkFeature({
       enabledCollections: ['pages', 'posts', 'forms'],
       fields: ({ defaultFields }) => {
@@ -43,5 +68,45 @@ export const defaultLexical = lexicalEditor({
         ];
       },
     }),
+
+    // Lists
+    OrderedListFeature(),
+    UnorderedListFeature(),
+    ChecklistFeature(),
+
+    // Text alignment and indentation
+    AlignFeature(),
+    IndentFeature(),
+
+    // Code and special text
+    InlineCodeFeature(),
+    SuperscriptFeature(),
+    SubscriptFeature(),
+
+    // Media uploads
+    UploadFeature({
+      collections: {
+        media: {
+          fields: [
+            {
+              name: 'caption',
+              type: 'text',
+            },
+          ],
+        },
+      },
+    }),
+
+    // Relationships
+    RelationshipFeature(),
+
+    // Layout elements
+    ParagraphFeature(),
+    BlockquoteFeature(),
+    HorizontalRuleFeature(),
+
+    // Toolbar features
+    FixedToolbarFeature(),
+    InlineToolbarFeature(),
   ],
 });
