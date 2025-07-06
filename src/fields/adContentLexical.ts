@@ -1,48 +1,42 @@
-import { AdRotatorFeature } from '@/features/AdRotatorFeature';
 import {
   AlignFeature,
   BlockquoteFeature,
   BoldFeature,
   ChecklistFeature,
-  FixedToolbarFeature,
   HeadingFeature,
   HorizontalRuleFeature,
   IndentFeature,
   InlineCodeFeature,
-  InlineToolbarFeature,
   ItalicFeature,
   lexicalEditor,
   LinkFeature,
   OrderedListFeature,
   ParagraphFeature,
-  RelationshipFeature,
   StrikethroughFeature,
   SubscriptFeature,
   SuperscriptFeature,
   UnderlineFeature,
   UnorderedListFeature,
   UploadFeature,
-  type LinkFields,
 } from '@payloadcms/richtext-lexical';
 import type { TextFieldSingleValidation } from 'payload';
 
-export const defaultLexical = lexicalEditor({
-  features: ({ defaultFeatures }) => [
-    ...defaultFeatures,
+export const adContentLexical = lexicalEditor({
+  features: () => [
     // Basic text formatting
     BoldFeature(),
     ItalicFeature(),
     UnderlineFeature(),
     StrikethroughFeature(),
 
-    // Headings
+    // Headings (limited)
     HeadingFeature({
-      enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+      enabledHeadingSizes: ['h3', 'h4', 'h5', 'h6'],
     }),
 
-    // Links with custom configuration
+    // Links with simple configuration
     LinkFeature({
-      enabledCollections: ['pages', 'posts', 'forms'],
+      enabledCollections: ['pages', 'posts'],
       fields: ({ defaultFields }) => {
         const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
           if ('name' in field && field.name === 'url') return false;
@@ -60,8 +54,8 @@ export const defaultLexical = lexicalEditor({
             label: ({ t }) => t('fields:enterURL'),
             required: true,
             validate: ((value, options) => {
-              if ((options?.siblingData as LinkFields)?.linkType === 'internal') {
-                return true; // no validation needed, as no url should exist for internal links
+              if ((options?.siblingData as Record<string, unknown>)?.linkType === 'internal') {
+                return true;
               }
               return value ? true : 'URL is required';
             }) as TextFieldSingleValidation,
@@ -84,7 +78,7 @@ export const defaultLexical = lexicalEditor({
     SuperscriptFeature(),
     SubscriptFeature(),
 
-    // Media uploads
+    // Media uploads (limited)
     UploadFeature({
       collections: {
         media: {
@@ -98,19 +92,9 @@ export const defaultLexical = lexicalEditor({
       },
     }),
 
-    // Relationships
-    RelationshipFeature(),
-
     // Layout elements
     ParagraphFeature(),
     BlockquoteFeature(),
     HorizontalRuleFeature(),
-
-    // Custom blocks
-    AdRotatorFeature(),
-
-    // Toolbar features
-    FixedToolbarFeature(),
-    InlineToolbarFeature(),
   ],
 });

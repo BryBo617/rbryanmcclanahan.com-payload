@@ -9,6 +9,7 @@ import sharp from 'sharp'; // sharp-import
 import { fileURLToPath } from 'url';
 
 import { defaultLexical } from '@/fields/defaultLexical';
+import { Ads } from './collections/Ads';
 import { Categories } from './collections/Categories';
 import { Media } from './collections/Media';
 import { Pages } from './collections/Pages';
@@ -74,7 +75,7 @@ export default buildConfig({
       connectionString: process.env.POSTGRES_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, Media, Categories, Users, Ads],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [

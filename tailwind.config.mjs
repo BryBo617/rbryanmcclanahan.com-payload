@@ -25,6 +25,13 @@ const config = {
     'bg-success/30',
     'border-warning',
     'bg-warning/30',
+    // Ad Rotator classes
+    'aspect-video',
+    'aspect-square',
+    'max-h-24',
+    'max-h-20',
+    'line-clamp-1',
+    'line-clamp-2',
   ],
   theme: {
     container: {
