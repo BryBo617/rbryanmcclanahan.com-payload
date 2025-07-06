@@ -1,13 +1,43 @@
-import type { Block, Field } from 'payload'
+import type { Block, Field } from 'payload';
 
 import {
-  FixedToolbarFeature,
+  // Headings
   HeadingFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
 
-import { link } from '@/fields/link'
+  // Links
+  LinkFeature,
+
+  // Lists
+  OrderedListFeature,
+  UnorderedListFeature,
+  ChecklistFeature,
+
+  // Text Alignment & Indentation
+  AlignFeature,
+  IndentFeature,
+
+  // Code & Special Text
+  InlineCodeFeature,
+  SuperscriptFeature,
+  SubscriptFeature,
+
+  // Media & Content
+  UploadFeature,
+  RelationshipFeature,
+
+  // Layout Elements
+  BlockquoteFeature,
+  HorizontalRuleFeature,
+
+  // Toolbar Features
+  FixedToolbarFeature,
+  InlineToolbarFeature,
+
+  // Core
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical';
+
+import { link } from '@/fields/link';
 
 const columnFields: Field[] = [
   {
@@ -37,13 +67,40 @@ const columnFields: Field[] = [
     name: 'richText',
     type: 'richText',
     editor: lexicalEditor({
-      features: ({ rootFeatures }) => {
+      features: ({ defaultFeatures }) => {
         return [
-          ...rootFeatures,
-          HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+          ...defaultFeatures,
+          // Additional features not in defaultFeatures
+          HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }),
+          LinkFeature({
+            enabledCollections: ['pages', 'posts', 'forms'],
+          }),
+          OrderedListFeature(),
+          UnorderedListFeature(),
+          ChecklistFeature(),
+          AlignFeature(),
+          IndentFeature(),
+          InlineCodeFeature(),
+          SuperscriptFeature(),
+          SubscriptFeature(),
+          UploadFeature({
+            collections: {
+              media: {
+                fields: [
+                  {
+                    name: 'caption',
+                    type: 'text',
+                  },
+                ],
+              },
+            },
+          }),
+          RelationshipFeature(),
+          BlockquoteFeature(),
+          HorizontalRuleFeature(),
           FixedToolbarFeature(),
           InlineToolbarFeature(),
-        ]
+        ];
       },
     }),
     label: false,
@@ -56,12 +113,12 @@ const columnFields: Field[] = [
     overrides: {
       admin: {
         condition: (_data, siblingData) => {
-          return Boolean(siblingData?.enableLink)
+          return Boolean(siblingData?.enableLink);
         },
       },
     },
   }),
-]
+];
 
 export const Content: Block = {
   slug: 'content',
@@ -76,4 +133,4 @@ export const Content: Block = {
       fields: columnFields,
     },
   ],
-}
+};
