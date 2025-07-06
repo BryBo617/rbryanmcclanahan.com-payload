@@ -72,6 +72,7 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    ads: Ad;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -88,6 +89,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    ads: AdsSelect<false> | AdsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -191,7 +193,15 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
-  layout: (CallToActionBlock | ContentWithMedia | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  layout: (
+    | AdRotatorBlock
+    | CallToActionBlock
+    | ContentWithMedia
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -384,6 +394,295 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AdRotatorBlock".
+ */
+export interface AdRotatorBlock {
+  /**
+   * Title for this ad rotator instance
+   */
+  title?: string | null;
+  /**
+   * Choose the layout zone where this ad rotator will be displayed
+   */
+  layoutZone?: ('header' | 'sidebar' | 'content' | 'footer') | null;
+  /**
+   * Choose the positioning within the layout zone
+   */
+  placement?: ('top-left' | 'top-right' | 'bottom-left' | 'bottom-right') | null;
+  /**
+   * Time in milliseconds between ad rotations (1000 = 1 second)
+   */
+  rotationInterval?: number | null;
+  pauseOnHover?: boolean | null;
+  /**
+   * Show dots navigation for manual ad selection
+   */
+  showNavigation?: boolean | null;
+  /**
+   * Select ads to display in this rotator
+   */
+  ads: (number | Ad)[];
+  /**
+   * Apply tracking parameters to all ads in this rotator
+   */
+  tracking?: {
+    /**
+     * Enable tracking for all ads in this rotator (true/false)
+     */
+    enabled?: string | null;
+    /**
+     * Select the tracking provider for this ad rotator
+     */
+    provider?:
+      | (
+          | 'google-ads'
+          | 'ga4'
+          | 'facebook-ads'
+          | 'facebook-pixel'
+          | 'linkedin-ads'
+          | 'microsoft-ads'
+          | 'hubspot'
+          | 'twitter-ads'
+          | 'tiktok-ads'
+          | 'snapchat-ads'
+          | 'pinterest-ads'
+          | 'amazon-dsp'
+          | 'adobe-advertising'
+          | 'custom'
+        )
+      | null;
+    /**
+     * Enter custom provider name (only shown when "Custom/Other" is selected)
+     */
+    customProvider?: string | null;
+    /**
+     * Campaign ID for this ad rotator
+     */
+    campaignId?: string | null;
+    /**
+     * Default UTM source for all ads (can be overridden per ad)
+     */
+    utmSource?: string | null;
+    /**
+     * Default UTM medium for all ads (can be overridden per ad)
+     */
+    utmMedium?: string | null;
+    /**
+     * Global tracking code applied to all ads in this rotator
+     */
+    customCode?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'adRotator';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ads".
+ */
+export interface Ad {
+  id: number;
+  /**
+   * Internal title for the advertisement
+   */
+  title: string;
+  /**
+   * Whether this ad is currently active
+   */
+  active?: boolean | null;
+  /**
+   * Main image for the advertisement
+   */
+  image: number | Media;
+  /**
+   * Text content for the advertisement
+   */
+  content?: string | null;
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+    label: string;
+  };
+  /**
+   * Configure the call-to-action button/link for this ad
+   */
+  cta?: {
+    /**
+     * Enable call-to-action for this ad
+     */
+    enabled?: boolean | null;
+    /**
+     * Text to display on the CTA button/link
+     */
+    text?: string | null;
+    /**
+     * Visual style for the CTA
+     */
+    style?: ('primary-button' | 'secondary-button' | 'outline-button' | 'text-link' | 'underlined-link') | null;
+    /**
+     * Size of the CTA button/link
+     */
+    size?: ('sm' | 'md' | 'lg') | null;
+    /**
+     * Position of the CTA within the ad
+     */
+    position?:
+      | (
+          | 'bottom-left'
+          | 'bottom-center'
+          | 'bottom-right'
+          | 'center-left'
+          | 'center'
+          | 'center-right'
+          | 'top-left'
+          | 'top-center'
+          | 'top-right'
+        )
+      | null;
+    /**
+     * Override default colors (optional)
+     */
+    customColors?: {
+      /**
+       * Background color (hex, rgb, or CSS color name)
+       */
+      background?: string | null;
+      /**
+       * Text color (hex, rgb, or CSS color name)
+       */
+      text?: string | null;
+      /**
+       * Border color (hex, rgb, or CSS color name)
+       */
+      border?: string | null;
+    };
+  };
+  /**
+   * Higher numbers = more likely to show (1-10)
+   */
+  weight?: number | null;
+  /**
+   * When this ad should start showing (optional)
+   */
+  startDate?: string | null;
+  /**
+   * When this ad should stop showing (optional)
+   */
+  endDate?: string | null;
+  /**
+   * Tags for organizing and filtering ads
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  seo?: {
+    /**
+     * Alt text for the ad image (SEO)
+     */
+    altText?: string | null;
+    /**
+     * Title attribute for the ad (SEO)
+     */
+    title?: string | null;
+    /**
+     * Meta description for SEO purposes
+     */
+    description?: string | null;
+  };
+  campaign?: {
+    /**
+     * Select the advertising platform or tracking provider
+     */
+    provider?:
+      | (
+          | 'google-ads'
+          | 'ga4'
+          | 'facebook-ads'
+          | 'facebook-pixel'
+          | 'linkedin-ads'
+          | 'microsoft-ads'
+          | 'hubspot'
+          | 'twitter-ads'
+          | 'tiktok-ads'
+          | 'snapchat-ads'
+          | 'pinterest-ads'
+          | 'amazon-dsp'
+          | 'adobe-advertising'
+          | 'custom'
+        )
+      | null;
+    /**
+     * Enter the custom provider name (only shown when "Custom/Other" is selected)
+     */
+    customProvider?: string | null;
+    /**
+     * Campaign ID from the advertising platform
+     */
+    campaignId?: string | null;
+    /**
+     * Ad Group ID (Google Ads, Microsoft Ads)
+     */
+    adGroupId?: string | null;
+    /**
+     * Specific Ad ID from the platform
+     */
+    adId?: string | null;
+    /**
+     * UTM Source (e.g., google, facebook, newsletter)
+     */
+    utmSource?: string | null;
+    /**
+     * UTM Medium (e.g., cpc, banner, email)
+     */
+    utmMedium?: string | null;
+    /**
+     * UTM Campaign name
+     */
+    utmCampaign?: string | null;
+    /**
+     * UTM Term (keywords for paid search)
+     */
+    utmTerm?: string | null;
+    /**
+     * UTM Content (for A/B testing ad variations)
+     */
+    utmContent?: string | null;
+    /**
+     * Custom tracking code or pixel (HTML/JavaScript)
+     */
+    customCode?: string | null;
+    /**
+     * Define conversion goals for this ad
+     */
+    goals?:
+      | {
+          goal: string;
+          /**
+           * Goal value (optional)
+           */
+          value?: number | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -962,6 +1261,10 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
+        relationTo: 'ads';
+        value: number | Ad;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1054,6 +1357,7 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
+        adRotator?: T | AdRotatorBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         contentWithMedia?: T | ContentWithMediaSelect<T>;
         content?: T | ContentBlockSelect<T>;
@@ -1074,6 +1378,32 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AdRotatorBlock_select".
+ */
+export interface AdRotatorBlockSelect<T extends boolean = true> {
+  title?: T;
+  layoutZone?: T;
+  placement?: T;
+  rotationInterval?: T;
+  pauseOnHover?: T;
+  showNavigation?: T;
+  ads?: T;
+  tracking?:
+    | T
+    | {
+        enabled?: T;
+        provider?: T;
+        customProvider?: T;
+        campaignId?: T;
+        utmSource?: T;
+        utmMedium?: T;
+        customCode?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1330,6 +1660,81 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ads_select".
+ */
+export interface AdsSelect<T extends boolean = true> {
+  title?: T;
+  active?: T;
+  image?: T;
+  content?: T;
+  link?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  cta?:
+    | T
+    | {
+        enabled?: T;
+        text?: T;
+        style?: T;
+        size?: T;
+        position?: T;
+        customColors?:
+          | T
+          | {
+              background?: T;
+              text?: T;
+              border?: T;
+            };
+      };
+  weight?: T;
+  startDate?: T;
+  endDate?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  seo?:
+    | T
+    | {
+        altText?: T;
+        title?: T;
+        description?: T;
+      };
+  campaign?:
+    | T
+    | {
+        provider?: T;
+        customProvider?: T;
+        campaignId?: T;
+        adGroupId?: T;
+        adId?: T;
+        utmSource?: T;
+        utmMedium?: T;
+        utmCampaign?: T;
+        utmTerm?: T;
+        utmContent?: T;
+        customCode?: T;
+        goals?:
+          | T
+          | {
+              goal?: T;
+              value?: T;
+              id?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
