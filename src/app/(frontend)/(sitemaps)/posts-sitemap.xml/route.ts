@@ -1,15 +1,15 @@
-import { getServerSideSitemap } from 'next-sitemap'
-import { getPayload } from 'payload'
-import config from '@payload-config'
-import { unstable_cache } from 'next/cache'
+import config from '@payload-config';
+import { getServerSideSitemap } from 'next-sitemap';
+import { unstable_cache } from 'next/cache';
+import { getPayload } from 'payload';
 
 const getPostsSitemap = unstable_cache(
   async () => {
-    const payload = await getPayload({ config })
+    const payload = await getPayload({ config });
     const SITE_URL =
       process.env.NEXT_PUBLIC_SERVER_URL ||
       process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-      'https://example.com'
+      'https://example.com';
 
     const results = await payload.find({
       collection: 'posts',
@@ -27,29 +27,29 @@ const getPostsSitemap = unstable_cache(
         slug: true,
         updatedAt: true,
       },
-    })
+    });
 
-    const dateFallback = new Date().toISOString()
+    const dateFallback = new Date().toISOString();
 
     const sitemap = results.docs
       ? results.docs
           .filter((post) => Boolean(post?.slug))
           .map((post) => ({
-            loc: `${SITE_URL}/posts/${post?.slug}`,
+            loc: `${SITE_URL}/blog/${post?.slug}`,
             lastmod: post.updatedAt || dateFallback,
           }))
-      : []
+      : [];
 
-    return sitemap
+    return sitemap;
   },
-  ['posts-sitemap'],
+  ['blog-post-sitemap'],
   {
-    tags: ['posts-sitemap'],
+    tags: ['blog-post-sitemap'],
   },
-)
+);
 
 export async function GET() {
-  const sitemap = await getPostsSitemap()
+  const sitemap = await getPostsSitemap();
 
-  return getServerSideSitemap(sitemap)
+  return getServerSideSitemap(sitemap);
 }

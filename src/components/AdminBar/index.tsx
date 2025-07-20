@@ -1,17 +1,17 @@
-'use client'
+'use client';
 
-import type { PayloadAdminBarProps, PayloadMeUser } from '@payloadcms/admin-bar'
+import type { PayloadAdminBarProps, PayloadMeUser } from '@payloadcms/admin-bar';
 
-import { cn } from '@/utilities/ui'
-import { PayloadAdminBar } from '@payloadcms/admin-bar'
-import { useRouter, useSelectedLayoutSegments } from 'next/navigation'
-import React, { useState } from 'react'
+import { cn } from '@/utilities/ui';
+import { PayloadAdminBar } from '@payloadcms/admin-bar';
+import { useRouter, useSelectedLayoutSegments } from 'next/navigation';
+import React, { useState } from 'react';
 
-import './index.scss'
+import './index.scss';
 
-import { getClientSideURL } from '@/utilities/getURL'
+import { getClientSideURL } from '@/utilities/getURL';
 
-const baseClass = 'admin-bar'
+const baseClass = 'admin-bar';
 
 const collectionLabels = {
   pages: {
@@ -19,31 +19,31 @@ const collectionLabels = {
     singular: 'Page',
   },
   posts: {
-    plural: 'Posts',
-    singular: 'Post',
+    plural: 'Blogs',
+    singular: 'Blog',
   },
   projects: {
     plural: 'Projects',
     singular: 'Project',
   },
-}
+};
 
-const Title: React.FC = () => <span>Dashboard</span>
+const Title: React.FC = () => <span>Dashboard</span>;
 
 export const AdminBar: React.FC<{
-  adminBarProps?: PayloadAdminBarProps
+  adminBarProps?: PayloadAdminBarProps;
 }> = (props) => {
-  const { adminBarProps } = props || {}
-  const segments = useSelectedLayoutSegments()
-  const [show, setShow] = useState(false)
+  const { adminBarProps } = props || {};
+  const segments = useSelectedLayoutSegments();
+  const [show, setShow] = useState(false);
   const collection = (
     collectionLabels[segments?.[1] as keyof typeof collectionLabels] ? segments[1] : 'pages'
-  ) as keyof typeof collectionLabels
-  const router = useRouter()
+  ) as keyof typeof collectionLabels;
+  const router = useRouter();
 
   const onAuthChange = React.useCallback((user: PayloadMeUser) => {
-    setShow(Boolean(user?.id))
-  }, [])
+    setShow(Boolean(user?.id));
+  }, []);
 
   return (
     <div
@@ -71,9 +71,9 @@ export const AdminBar: React.FC<{
           onAuthChange={onAuthChange}
           onPreviewExit={() => {
             fetch('/next/exit-preview').then(() => {
-              router.push('/')
-              router.refresh()
-            })
+              router.push('/');
+              router.refresh();
+            });
           }}
           style={{
             backgroundColor: 'inherit',
@@ -85,5 +85,5 @@ export const AdminBar: React.FC<{
         />
       </div>
     </div>
-  )
-}
+  );
+};

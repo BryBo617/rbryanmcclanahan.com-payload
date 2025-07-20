@@ -99,7 +99,7 @@ export const AdRotatorBlock: React.FC<Props> = ({
           baseUrl = `/page/${page.slug || ''}`;
         } else if (ad.link.reference.relationTo === 'posts') {
           const post = ad.link.reference.value as { slug?: string };
-          baseUrl = `/posts/${post.slug || ''}`;
+          baseUrl = `/blog/${post.slug || ''}`;
         }
       }
 

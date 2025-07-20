@@ -1,11 +1,6 @@
 import type { Block } from 'payload';
 
-import {
-  FixedToolbarFeature,
-  HeadingFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical';
+import { defaultLexical } from '@/fields/defaultLexical';
 
 export const ContentWithMedia: Block = {
   slug: 'contentWithMedia',
@@ -18,16 +13,7 @@ export const ContentWithMedia: Block = {
     {
       name: 'content',
       type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ];
-        },
-      }),
+      editor: defaultLexical,
     },
     {
       label: 'Content Image',
@@ -40,14 +26,7 @@ export const ContentWithMedia: Block = {
       name: 'contentBelowImage',
       label: 'Content Below Image',
       type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => [
-          ...rootFeatures,
-          HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-          FixedToolbarFeature(),
-          InlineToolbarFeature(),
-        ],
-      }),
+      editor: defaultLexical,
     },
     {
       label: 'Image Position',

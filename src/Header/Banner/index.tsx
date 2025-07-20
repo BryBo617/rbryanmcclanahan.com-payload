@@ -61,8 +61,9 @@ export const Banner: React.FC<{ data: Header }> = ({ data }) => {
             border: '0.1em solid hsl(var(--banner-secondary))',
             backgroundImage: `url(${typeof media === 'object' && media?.url ? media.url : ''})`,
             backgroundSize: 'cover',
-            backgroundPosition: '75% 25%',
+            backgroundPosition: '80% 25%', // More right-biased
             backgroundRepeat: 'no-repeat',
+            maxWidth: '100vw',
           }}
         >
           <div

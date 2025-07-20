@@ -1,31 +1,29 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig } from 'payload';
 
-import {
-  BlocksFeature,
-  FixedToolbarFeature,
-  HeadingFeature,
-  HorizontalRuleFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
+// ...existing code...
 
-import { authenticated } from '../../access/authenticated'
-import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
-import { Banner } from '../../blocks/Banner/config'
-import { Code } from '../../blocks/Code/config'
-import { MediaBlock } from '../../blocks/MediaBlock/config'
-import { generatePreviewPath } from '../../utilities/generatePreviewPath'
-import { populateAuthors } from './hooks/populateAuthors'
-import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
+import { authenticated } from '../../access/authenticated';
+import { authenticatedOrPublished } from '../../access/authenticatedOrPublished';
+// ...existing code...
+import { generatePreviewPath } from '../../utilities/generatePreviewPath';
+import { populateAuthors } from './hooks/populateAuthors';
+import { revalidateDelete, revalidatePost } from './hooks/revalidatePost';
 
+import { AdRotatorBlock } from '@/blocks/AdRotatorBlock/config';
+import { Archive } from '@/blocks/ArchiveBlock/config';
+import { CallToAction } from '@/blocks/CallToAction/config';
+import { Content } from '@/blocks/Content/config';
+import { ContentWithMedia } from '@/blocks/ContentWithMedia/config';
+import { FormBlock } from '@/blocks/Form/config';
+import { MediaBlock } from '@/blocks/MediaBlock/config';
+import { slugField } from '@/fields/slug';
 import {
   MetaDescriptionField,
   MetaImageField,
   MetaTitleField,
   OverviewField,
   PreviewField,
-} from '@payloadcms/plugin-seo/fields'
-import { slugField } from '@/fields/slug'
+} from '@payloadcms/plugin-seo/fields';
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
@@ -55,9 +53,9 @@ export const Posts: CollectionConfig<'posts'> = {
           slug: typeof data?.slug === 'string' ? data.slug : '',
           collection: 'posts',
           req,
-        })
+        });
 
-        return path
+        return path;
       },
     },
     preview: (data, { req }) =>
@@ -80,27 +78,21 @@ export const Posts: CollectionConfig<'posts'> = {
         {
           fields: [
             {
-              name: 'heroImage',
-              type: 'upload',
-              relationTo: 'media',
-            },
-            {
-              name: 'content',
-              type: 'richText',
-              editor: lexicalEditor({
-                features: ({ rootFeatures }) => {
-                  return [
-                    ...rootFeatures,
-                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                    BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
-                    FixedToolbarFeature(),
-                    InlineToolbarFeature(),
-                    HorizontalRuleFeature(),
-                  ]
-                },
-              }),
-              label: false,
+              name: 'layout',
+              type: 'blocks',
+              blocks: [
+                AdRotatorBlock,
+                CallToAction,
+                ContentWithMedia,
+                Content,
+                MediaBlock,
+                Archive,
+                FormBlock,
+              ],
               required: true,
+              admin: {
+                initCollapsed: true,
+              },
             },
           ],
           label: 'Content',
@@ -118,7 +110,7 @@ export const Posts: CollectionConfig<'posts'> = {
                   id: {
                     not_in: [id],
                   },
-                }
+                };
               },
               hasMany: true,
               relationTo: 'posts',
@@ -177,9 +169,9 @@ export const Posts: CollectionConfig<'posts'> = {
         beforeChange: [
           ({ siblingData, value }) => {
             if (siblingData._status === 'published' && !value) {
-              return new Date()
+              return new Date();
             }
-            return value
+            return value;
           },
         ],
       },
@@ -233,4 +225,4 @@ export const Posts: CollectionConfig<'posts'> = {
     },
     maxPerDoc: 50,
   },
-}
+};

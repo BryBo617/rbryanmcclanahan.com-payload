@@ -1,42 +1,6 @@
 import type { Block, Field } from 'payload';
 
-import {
-  // Headings
-  HeadingFeature,
-
-  // Links
-  LinkFeature,
-
-  // Lists
-  OrderedListFeature,
-  UnorderedListFeature,
-  ChecklistFeature,
-
-  // Text Alignment & Indentation
-  AlignFeature,
-  IndentFeature,
-
-  // Code & Special Text
-  InlineCodeFeature,
-  SuperscriptFeature,
-  SubscriptFeature,
-
-  // Media & Content
-  UploadFeature,
-  RelationshipFeature,
-
-  // Layout Elements
-  BlockquoteFeature,
-  HorizontalRuleFeature,
-
-  // Toolbar Features
-  FixedToolbarFeature,
-  InlineToolbarFeature,
-
-  // Core
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical';
-
+import { defaultLexical } from '@/fields/defaultLexical';
 import { link } from '@/fields/link';
 
 const columnFields: Field[] = [
@@ -66,43 +30,7 @@ const columnFields: Field[] = [
   {
     name: 'richText',
     type: 'richText',
-    editor: lexicalEditor({
-      features: ({ defaultFeatures }) => {
-        return [
-          ...defaultFeatures,
-          // Additional features not in defaultFeatures
-          HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }),
-          LinkFeature({
-            enabledCollections: ['pages', 'posts', 'forms'],
-          }),
-          OrderedListFeature(),
-          UnorderedListFeature(),
-          ChecklistFeature(),
-          AlignFeature(),
-          IndentFeature(),
-          InlineCodeFeature(),
-          SuperscriptFeature(),
-          SubscriptFeature(),
-          UploadFeature({
-            collections: {
-              media: {
-                fields: [
-                  {
-                    name: 'caption',
-                    type: 'text',
-                  },
-                ],
-              },
-            },
-          }),
-          RelationshipFeature(),
-          BlockquoteFeature(),
-          HorizontalRuleFeature(),
-          FixedToolbarFeature(),
-          InlineToolbarFeature(),
-        ];
-      },
-    }),
+    editor: defaultLexical,
     label: false,
   },
   {
