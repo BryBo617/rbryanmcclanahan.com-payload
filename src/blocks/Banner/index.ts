@@ -1,0 +1,1 @@
+export { BannerBlock } from './Component';

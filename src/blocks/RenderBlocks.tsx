@@ -4,6 +4,7 @@ import type { Page } from '@/payload-types';
 
 import { AdRotatorBlock } from '@/blocks/AdRotatorBlock/Component';
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component';
+import { BannerBlock } from '@/blocks/Banner';
 import { CallToActionBlock } from '@/blocks/CallToAction/Component';
 import { ContentBlock } from '@/blocks/Content/Component';
 import { ContentWithMediaBlock } from '@/blocks/ContentWithMedia/Component';
@@ -13,6 +14,7 @@ import { MediaBlock } from '@/blocks/MediaBlock/Component';
 const blockComponents = {
   adRotator: AdRotatorBlock,
   archive: ArchiveBlock,
+  banner: BannerBlock,
   content: ContentBlock,
   contentWithMedia: ContentWithMediaBlock,
   cta: CallToActionBlock,

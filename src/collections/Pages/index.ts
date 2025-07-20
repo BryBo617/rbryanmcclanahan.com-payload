@@ -5,6 +5,7 @@ import { hero } from '@/heros/config';
 import { authenticated } from '../../access/authenticated';
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished';
 import { Archive } from '../../blocks/ArchiveBlock/config';
+import { Banner } from '../../blocks/Banner/config';
 import { CallToAction } from '../../blocks/CallToAction/config';
 import { Content } from '../../blocks/Content/config';
 import { ContentWithMedia } from '../../blocks/ContentWithMedia/config';
@@ -79,6 +80,7 @@ export const Pages: CollectionConfig<'pages'> = {
               type: 'blocks',
               blocks: [
                 AdRotatorBlock,
+                Banner,
                 CallToAction,
                 ContentWithMedia,
                 Content,

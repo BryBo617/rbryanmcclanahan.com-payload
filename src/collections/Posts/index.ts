@@ -11,6 +11,7 @@ import { revalidateDelete, revalidatePost } from './hooks/revalidatePost';
 
 import { AdRotatorBlock } from '@/blocks/AdRotatorBlock/config';
 import { Archive } from '@/blocks/ArchiveBlock/config';
+import { Banner } from '@/blocks/Banner/config';
 import { CallToAction } from '@/blocks/CallToAction/config';
 import { Content } from '@/blocks/Content/config';
 import { ContentWithMedia } from '@/blocks/ContentWithMedia/config';
@@ -73,6 +74,15 @@ export const Posts: CollectionConfig<'posts'> = {
       required: true,
     },
     {
+      name: 'heroImage',
+      type: 'relationship',
+      relationTo: 'media',
+      required: false,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       type: 'tabs',
       tabs: [
         {
@@ -82,6 +92,7 @@ export const Posts: CollectionConfig<'posts'> = {
               type: 'blocks',
               blocks: [
                 AdRotatorBlock,
+                Banner,
                 CallToAction,
                 ContentWithMedia,
                 Content,
