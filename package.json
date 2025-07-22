@@ -77,8 +77,7 @@
     "typescript": "5.7.3"
   },
   "engines": {
-    "node": "18.x",
-    "pnpm": "9.x"
+    "node": "22.x"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
