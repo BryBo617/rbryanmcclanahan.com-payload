@@ -5,7 +5,7 @@ import { Pool } from 'pg';
 config({ path: '.env.development.local' });
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.POSTGRES_URL,
 });
 
 async function cleanupOrphanedData() {
