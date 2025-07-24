@@ -1,8 +1,5 @@
 import type { Metadata } from 'next/types';
 
-import { CollectionArchive } from '@/components/CollectionArchive';
-import { PageRange } from '@/components/PageRange';
-import { Pagination } from '@/components/Pagination';
 import configPromise from '@payload-config';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
@@ -32,6 +29,8 @@ export default async function Page({ params: paramsPromise }: Args) {
     overrideAccess: false,
   });
 
+  console.log(`posts:`, posts); // eslint-disable-line
+
   return (
     <div className="pt-24 pb-24">
       <PageClient />
@@ -41,7 +40,7 @@ export default async function Page({ params: paramsPromise }: Args) {
         </div>
       </div>
 
-      <div className="container mb-8">
+      {/* <div className="container mb-8">
         <PageRange
           collection="posts"
           currentPage={posts.page}
@@ -56,7 +55,7 @@ export default async function Page({ params: paramsPromise }: Args) {
         {posts?.page && posts?.totalPages > 1 && (
           <Pagination page={posts.page} totalPages={posts.totalPages} />
         )}
-      </div>
+      </div> */}
     </div>
   );
 }
