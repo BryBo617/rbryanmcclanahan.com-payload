@@ -59,7 +59,7 @@ async function ensureFirstPost() {
       process.exit(0);
     } else {
       // else we don't have to insert it again.
-      console.log('Post 1', result.rows[0]?.title); // eslint-disable-line
+      console.log('Post 1 Found', result.rows[0]?.title); // eslint-disable-line
       process.exit(0);
     }
   } catch (ex) {
