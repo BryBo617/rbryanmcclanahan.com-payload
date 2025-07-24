@@ -17,6 +17,7 @@ async function ensureFirstPost() {
       SELECT * FROM posts WHERE id = 1
       `);
 
+    console.log(`result:`, result); // eslint-disable-line
     if (result.rows.length === 0 || !result.rows[0].id === 1) {
       // create post one and force its id to 1, with all required fields populated.
       console.log(`Inserting Post:`); // eslint-disable-line
