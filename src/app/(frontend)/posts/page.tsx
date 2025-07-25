@@ -34,23 +34,32 @@ export default async function Page() {
           <h1>Blog Posts</h1>
         </div>
       </div>
+      {posts && posts.docs.length > 0 ? (
+        <>
+          <div className="container mb-8">
+            <PageRange
+              collection="posts"
+              currentPage={posts.page}
+              limit={12}
+              totalDocs={posts.totalDocs}
+            />
+          </div>
 
-      <div className="container mb-8">
-        <PageRange
-          collection="posts"
-          currentPage={posts.page}
-          limit={12}
-          totalDocs={posts.totalDocs}
-        />
-      </div>
+          <CollectionArchive posts={posts.docs} />
 
-      <CollectionArchive posts={posts.docs} />
-
-      <div className="container">
-        {posts.totalPages > 1 && posts.page && (
-          <Pagination page={posts.page} totalPages={posts.totalPages} />
-        )}
-      </div>
+          <div className="container">
+            {posts.totalPages > 1 && posts.page && (
+              <Pagination page={posts.page} totalPages={posts.totalPages} />
+            )}
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="container mb-8"></div>
+          <div className="container">Hey! I should blog or something.</div>
+          <div className="container"></div>
+        </>
+      )}
     </div>
   );
 }
