@@ -1,99 +1,87 @@
-import type { Metadata } from 'next';
+import type { Metadata } from 'next/types';
 
-import { RelatedPosts } from '@/blocks/RelatedPosts/Component';
-import { PayloadRedirects } from '@/components/PayloadRedirects';
+import { CollectionArchive } from '@/components/CollectionArchive';
+import { PageRange } from '@/components/PageRange';
+import { Pagination } from '@/components/Pagination';
 import configPromise from '@payload-config';
-import { draftMode } from 'next/headers';
+import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
-import { cache } from 'react';
-
-import { RenderBlocks } from '@/blocks/RenderBlocks';
-import { LivePreviewListener } from '@/components/LivePreviewListener';
-import { generateMeta } from '@/utilities/generateMeta';
 import PageClient from './page.client';
 
-export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise });
-  const posts = await payload.find({
-    collection: 'posts',
-    draft: false,
-    limit: 1000,
-    overrideAccess: false,
-    pagination: false,
-    select: {
-      slug: true,
-    },
-  });
-
-  const params = posts.docs.map(({ slug }) => {
-    return { slug };
-  });
-
-  return params;
-}
+export const revalidate = 600;
 
 type Args = {
   params: Promise<{
-    slug?: string;
+    pageNumber: string;
   }>;
 };
 
-export default async function Post({ params: paramsPromise }: Args) {
-  const { isEnabled: draft } = await draftMode();
-  const { slug = '' } = await paramsPromise;
-  const url = '/posts/' + slug;
-  const post = await queryPostBySlug({ slug });
+export default async function Page({ params: paramsPromise }: Args) {
+  const { pageNumber } = await paramsPromise;
+  const payload = await getPayload({ config: configPromise });
 
-  if (!post) return <PayloadRedirects url={url} />;
+  const sanitizedPageNumber = Number(pageNumber);
+
+  if (!Number.isInteger(sanitizedPageNumber)) notFound();
+
+  const posts = await payload.find({
+    collection: 'posts',
+    depth: 1,
+    limit: 12,
+    page: sanitizedPageNumber,
+    overrideAccess: false,
+  });
 
   return (
-    <article className="pt-16 pb-16">
+    <div className="pt-24 pb-24">
       <PageClient />
-
-      {/* Allows redirects for valid pages too */}
-      <PayloadRedirects disableNotFound url={url} />
-
-      {draft && <LivePreviewListener />}
-
-      <div className="flex flex-col items-center gap-4 pt-8">
-        <div className="container">
-          <RenderBlocks blocks={post.layout} />
-          {post.relatedPosts && post.relatedPosts.length > 0 && (
-            <RelatedPosts
-              className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
-              docs={post.relatedPosts.filter((post) => typeof post === 'object')}
-            />
-          )}
+      <div className="container mb-16">
+        <div className="prose dark:prose-invert max-w-none">
+          <h1>Posts</h1>
         </div>
       </div>
-    </article>
+
+      <div className="container mb-8">
+        <PageRange
+          collection="posts"
+          currentPage={posts.page}
+          limit={12}
+          totalDocs={posts.totalDocs}
+        />
+      </div>
+
+      <CollectionArchive posts={posts.docs} />
+
+      <div className="container">
+        {posts?.page && posts?.totalPages > 1 && (
+          <Pagination page={posts.page} totalPages={posts.totalPages} />
+        )}
+      </div>
+    </div>
   );
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { slug = '' } = await paramsPromise;
-  const post = await queryPostBySlug({ slug });
-
-  return generateMeta({ doc: post });
+  const { pageNumber } = await paramsPromise;
+  return {
+    title: `Payload Website Template Posts Page ${pageNumber || ''}`,
+  };
 }
 
-const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
-  const { isEnabled: draft } = await draftMode();
-
+export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
-
-  const result = await payload.find({
+  const { totalDocs } = await payload.count({
     collection: 'posts',
-    draft,
-    limit: 1,
-    overrideAccess: draft,
-    pagination: false,
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
+    overrideAccess: false,
   });
 
-  return result.docs?.[0] || null;
-});
+  const totalPages = Math.ceil(totalDocs / 10);
+
+  const pages: { pageNumber: string }[] = [];
+
+  for (let i = 1; i <= totalPages; i++) {
+    pages.push({ pageNumber: String(i) });
+  }
+
+  return pages;
+}
