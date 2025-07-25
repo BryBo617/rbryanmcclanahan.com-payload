@@ -17,23 +17,19 @@ export const Banner: React.FC<{ data: Header }> = ({ data }) => {
           'absolute z-[2] flex flex-col rounded-lg',
           'w-[88%] sm:w-[60%] md:w-[55%] md:max-w-[90%] lg:w-[55%] lg:max-w-[80%]',
           'top-[60px]',
-          // Default mobile positioning
           'left-1/2 -translate-x-1/2',
-          // Override for landscape mobile only (not desktop landscape)
           'max-sm:landscape:left-auto max-sm:landscape:translate-x-0 max-sm:landscape:ml-2 max-sm:landscape:mr-2',
-          // Small screens positioning
           'sm:left-auto sm:translate-x-0 sm:ml-6 sm:mr-4',
-          // Medium screens positioning
           'md:ml-6',
-          // Desktop positioning (lg and up)
           'lg:left-[30px] lg:translate-x-0 lg:ml-0',
           'p-3 landscape:p-2 sm:p-4 md:p-5 lg:p-6',
+          'min-w-[280px] min-h-[180px]', // Smallest device min width/height
+          'max-w-full max-h-full', // Never grow beyond background image
         )}
         style={{
           backgroundColor: 'hsl(var(--banner-primary) / 0.5)',
           border: '1px solid hsl(var(--banner-secondary) / 0.5)',
           boxShadow: '0 4px 8px hsl(var(--banner-secondary))',
-          maxWidth: '600px',
         }}
       >
         {content && (
@@ -45,6 +41,7 @@ export const Banner: React.FC<{ data: Header }> = ({ data }) => {
               '[&_h3]:mt-1 sm:[&_h3]:mt-0 md:[&_h3]:mt-[0.2em]',
               '[&_p]:text-sm sm:[&_p]:text-base [&_p]:py-[0.3em] sm:[&_p]:py-[0.5em]',
               '[&_p]:leading-relaxed',
+              'overflow-auto flex-1', // Allow RichText to scroll if needed
             )}
             data={content}
           />
@@ -61,8 +58,9 @@ export const Banner: React.FC<{ data: Header }> = ({ data }) => {
             border: '0.1em solid hsl(var(--banner-secondary))',
             backgroundImage: `url(${typeof media === 'object' && media?.url ? media.url : ''})`,
             backgroundSize: 'cover',
-            backgroundPosition: '75% 25%',
+            backgroundPosition: '80% 25%', // More right-biased
             backgroundRepeat: 'no-repeat',
+            maxWidth: '100vw',
           }}
         >
           <div
