@@ -20,6 +20,10 @@ export const Header: GlobalConfig = {
       name: 'navItems',
       type: 'array',
       fields: [
+        {
+          name: 'enabled',
+          type: 'checkbox',
+        },
         link({
           appearances: false,
         }),

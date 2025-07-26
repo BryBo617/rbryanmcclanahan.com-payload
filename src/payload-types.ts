@@ -2055,6 +2055,7 @@ export interface Header {
   } | null;
   navItems?:
     | {
+        enabled?: boolean | null;
         link: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
@@ -2131,6 +2132,7 @@ export interface HeaderSelect<T extends boolean = true> {
   navItems?:
     | T
     | {
+        enabled?: T;
         link?:
           | T
           | {

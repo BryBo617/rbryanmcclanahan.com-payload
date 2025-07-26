@@ -19,6 +19,7 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
         .filter((ni) => {
           // Build the href for comparison
           const { link } = ni;
+
           let href = '';
 
           if (
@@ -33,8 +34,8 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
 
           return href !== pathname;
         })
-        .map(({ link }, i) => {
-          return <CMSLink key={i} {...link} appearance="default" />;
+        .map(({ link, enabled }, i) => {
+          return enabled && <CMSLink key={i} {...link} appearance="default" />;
         })}
       {/* <Link href="/search">
       <span className="sr-only">Search</span>
