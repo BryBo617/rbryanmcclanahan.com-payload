@@ -23,6 +23,8 @@ export const Header: GlobalConfig = {
         {
           name: 'enabled',
           type: 'checkbox',
+          required: false,
+          defaultValue: true,
         },
         link({
           appearances: false,
