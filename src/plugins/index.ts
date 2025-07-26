@@ -7,10 +7,10 @@ import { redirectsPlugin } from '@payloadcms/plugin-redirects';
 import { searchPlugin } from '@payloadcms/plugin-search';
 import { seoPlugin } from '@payloadcms/plugin-seo';
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types';
-import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical';
 import { s3Storage } from '@payloadcms/storage-s3';
 import { Plugin } from 'payload';
 
+import { defaultLexical } from '@/fields/defaultLexical';
 import { Page, Post } from '@/payload-types';
 import { getServerSideURL } from '@/utilities/getURL';
 
@@ -65,15 +65,7 @@ export const plugins: Plugin[] = [
           if ('name' in field && field.name === 'confirmationMessage') {
             return {
               ...field,
-              editor: lexicalEditor({
-                features: ({ defaultFeatures }) => {
-                  return [
-                    ...defaultFeatures,
-                    FixedToolbarFeature(),
-                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                  ];
-                },
-              }),
+              editor: defaultLexical,
             };
           }
           return field;

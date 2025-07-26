@@ -1,18 +1,17 @@
-import React from 'react'
-import { formatDateTime } from 'src/utilities/formatDateTime'
+import React from 'react';
+import { formatDateTime } from 'src/utilities/formatDateTime';
 
-import type { Post } from '@/payload-types'
+import type { Post } from '@/payload-types';
 
-import { Media } from '@/components/Media'
-import { formatAuthors } from '@/utilities/formatAuthors'
+import { formatAuthors } from '@/utilities/formatAuthors';
 
 export const PostHero: React.FC<{
-  post: Post
+  post: Post;
 }> = ({ post }) => {
-  const { categories, heroImage, populatedAuthors, publishedAt, title } = post
+  const { categories, populatedAuthors, publishedAt, title } = post;
 
   const hasAuthors =
-    populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
+    populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== '';
 
   return (
     <div className="relative -mt-[10.4rem] flex items-end">
@@ -21,20 +20,20 @@ export const PostHero: React.FC<{
           <div className="uppercase text-sm mb-6 text-black">
             {categories?.map((category, index) => {
               if (typeof category === 'object' && category !== null) {
-                const { title: categoryTitle } = category
+                const { title: categoryTitle } = category;
 
-                const titleToUse = categoryTitle || 'Untitled category'
+                const titleToUse = categoryTitle || 'Untitled category';
 
-                const isLast = index === categories.length - 1
+                const isLast = index === categories.length - 1;
 
                 return (
                   <React.Fragment key={index}>
                     {titleToUse}
                     {!isLast && <React.Fragment>, &nbsp;</React.Fragment>}
                   </React.Fragment>
-                )
+                );
               }
-              return null
+              return null;
             })}
           </div>
 
@@ -62,12 +61,6 @@ export const PostHero: React.FC<{
           </div>
         </div>
       </div>
-      <div className="min-h-[80vh] select-none">
-        {heroImage && typeof heroImage !== 'string' && (
-          <Media fill priority imgClassName="-z-10 object-cover" resource={heroImage} />
-        )}
-        <div className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent" />
-      </div>
     </div>
-  )
-}
+  );
+};
