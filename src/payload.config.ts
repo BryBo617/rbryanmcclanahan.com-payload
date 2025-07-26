@@ -64,6 +64,7 @@ export default buildConfig({
     }),
   }),
   db: vercelPostgresAdapter({
+    migrationDir: './src/migrations',
     pool: {
       connectionString: process.env.POSTGRES_URL || '',
     },
