@@ -1,13 +1,8 @@
-import type { GlobalConfig } from 'payload'
+import type { GlobalConfig } from 'payload';
 
-import { link } from '@/fields/link'
-import {
-  FixedToolbarFeature,
-  HeadingFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
-import { revalidateFooter } from './hooks/revalidateFooter'
+import { defaultLexical } from '@/fields/defaultLexical';
+import { link } from '@/fields/link';
+import { revalidateFooter } from './hooks/revalidateFooter';
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
@@ -18,16 +13,7 @@ export const Footer: GlobalConfig = {
     {
       name: 'richText',
       type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ]
-        },
-      }),
+      editor: defaultLexical,
       label: 'Footer Content',
     },
     {
@@ -50,4 +36,4 @@ export const Footer: GlobalConfig = {
   hooks: {
     afterChange: [revalidateFooter],
   },
-}
+};

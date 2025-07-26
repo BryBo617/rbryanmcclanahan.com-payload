@@ -9,10 +9,12 @@ import { ContentBlock } from '@/blocks/Content/Component';
 import { ContentWithMediaBlock } from '@/blocks/ContentWithMedia/Component';
 import { FormBlock } from '@/blocks/Form/Component';
 import { MediaBlock } from '@/blocks/MediaBlock/Component';
+import { BannerBlock } from './Banner/Component';
 
 const blockComponents = {
   adRotator: AdRotatorBlock,
   archive: ArchiveBlock,
+  banner: BannerBlock,
   content: ContentBlock,
   contentWithMedia: ContentWithMediaBlock,
   cta: CallToActionBlock,

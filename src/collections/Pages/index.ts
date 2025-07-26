@@ -15,6 +15,7 @@ import { generatePreviewPath } from '../../utilities/generatePreviewPath';
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage';
 
 import { AdRotatorBlock } from '@/blocks/AdRotatorBlock/config';
+import { Banner } from '@/blocks/Banner/config';
 import {
   MetaDescriptionField,
   MetaImageField,
@@ -79,6 +80,7 @@ export const Pages: CollectionConfig<'pages'> = {
               type: 'blocks',
               blocks: [
                 AdRotatorBlock,
+                Banner,
                 CallToAction,
                 ContentWithMedia,
                 Content,

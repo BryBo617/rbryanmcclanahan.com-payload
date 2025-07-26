@@ -1,5 +1,5 @@
-import { RequiredDataFromCollectionSlug } from 'payload'
-import type { PostArgs } from './post-1'
+import { RequiredDataFromCollectionSlug } from 'payload';
+import type { PostArgs } from './post-1';
 
 export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> = ({
   heroImage,
@@ -264,5 +264,6 @@ export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
     },
     relatedPosts: [], // this is populated by the seed script
     title: 'Dollar and Sense: The Financial Forecast',
-  }
-}
+    layout: [], // Added required 'layout' property, adjust as needed
+  };
+};
