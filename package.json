@@ -5,7 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "pnpm ci",
+    "build": "pnpm run ci",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "dev:prod": "cross-env NODE_OPTIONS=--no-deprecation rm -rf .next && pnpm build && pnpm start",
@@ -78,7 +78,7 @@
     "typescript": "5.7.3"
   },
   "engines": {
-    "node": "^20",
+    "node": "^22",
     "pnpm": "^10"
   },
   "pnpm": {
